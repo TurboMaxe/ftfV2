@@ -24,7 +24,7 @@ public class Main extends JFrame {
         }
         setContentPane(panelMain);
         setTitle("Focal to FOV");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setSize(480,480);
         setLocationRelativeTo(null);
