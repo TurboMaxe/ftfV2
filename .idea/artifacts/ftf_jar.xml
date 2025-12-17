@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/ftf_jar</output-path>
     <root id="archive" name="ftf.jar">
       <element id="module-output" name="ftf" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/formdev/flatlaf/3.7/flatlaf-3.7.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
