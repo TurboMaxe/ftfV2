@@ -26,7 +26,8 @@
         </constraints>
         <properties>
           <enabled value="true"/>
-          <maximum value="1000"/>
+          <majorTickSpacing value="0"/>
+          <maximum value="300"/>
           <paintLabels value="false"/>
           <paintTicks value="false"/>
           <paintTrack value="true"/>

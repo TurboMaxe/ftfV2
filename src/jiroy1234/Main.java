@@ -17,15 +17,16 @@ public class Main extends JFrame {
     private JTextField heightInput;
 
     public Main() {
-        setContentPane(panelMain);
-        setTitle("Focal to FOV");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(480,480);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
+        setContentPane(panelMain);
+        setTitle("Focal to FOV");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(480,480);
         setLocationRelativeTo(null);
         setVisible(true);
 
