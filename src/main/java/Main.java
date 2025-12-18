@@ -1,11 +1,6 @@
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyVetoException;
-import java.beans.VetoableChangeListener;
 
 public class Main extends JFrame {
     private JPanel panelMain;
