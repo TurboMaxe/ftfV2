@@ -1,6 +1,11 @@
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 
 public class Main extends JFrame {
     private JPanel panelMain;
@@ -15,12 +20,14 @@ public class Main extends JFrame {
     private JLabel errorLabel;
     private JTextField heightInput;
 
+    int test = 1;
+
     public Main() {
         setContentPane(panelMain);
         setTitle("Focal to FOV");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
-        setSize(480,480);
+        setSize(360,240);
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -32,8 +39,6 @@ public class Main extends JFrame {
             focalInput.setValue(focalSlider.getValue());
             calculate();
         });
-        widthInput.addPropertyChangeListener(propertyChangeEvent -> calculate());
-        heightInput.addPropertyChangeListener(propertyChangeEvent -> calculate());
     }
 
     void calculate() {
