@@ -34,6 +34,10 @@ public class Main extends JFrame {
         });
     }
 
+     private static boolean isZero(int n) {
+        return n == 0;
+        }
+         
     void calculate() {
         float result;
         final int sensorX = 36;
@@ -51,7 +55,7 @@ public class Main extends JFrame {
             return;
         }
 
-        if (focal == 0) {
+        if (isZero(focal)) {
             fovOutput.setText("Undefined");
             errorLabel.setText("Specify a focal value other than 0.");
             return;
