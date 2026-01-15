@@ -14,6 +14,8 @@ public class Main extends JFrame {
     private JSpinner focalInput;
     private JLabel errorLabel;
     private JTextField heightInput;
+    private JLabel versionLabel;
+    static String version;
 
     public Main() {
         setContentPane(panelMain);
@@ -24,6 +26,9 @@ public class Main extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
+        version = "1.2.3";
+        versionLabel.setText( "version " + getVersion());
+
         focalInput.addChangeListener(changeEvent -> {
             focalSlider.setValue((int)focalInput.getValue());
             calculate();
@@ -32,6 +37,10 @@ public class Main extends JFrame {
             focalInput.setValue(focalSlider.getValue());
             calculate();
         });
+    }
+
+     private String getVersion() {
+        return version;
     }
 
      private static boolean isZero(int n) {
