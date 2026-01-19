@@ -1,6 +1,13 @@
 import com.formdev.flatlaf.FlatLightLaf;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Main extends JFrame {
     private JPanel panelMain;
@@ -13,24 +20,47 @@ public class Main extends JFrame {
     private JLabel fovLabel;
     private JSpinner focalInput;
     private JLabel errorLabel;
+    private JLabel Label;
     private JTextField heightInput;
     private JLabel versionLabel;
-    static String version;
+    private JToolBar toolBar;
+    /*
+     * the current version of ftf
+     *
+     * @param version the version of ftf, circles are round
+     * @return returns the version to display gui
+     */
+    @Getter private String version = "1.2.3";
+
+
+
 
     public Main() {
+        /*
+         * application logic
+         *
+         */
         setContentPane(panelMain);
-        setTitle("Focal to FOV");
+        setTitle("Focal to FOV converter ");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
-        setSize(360,240);
+        setSize(365, 165);
         setLocationRelativeTo(null);
         setVisible(true);
 
-        version = "1.2.3";
+
+
+
+        /*
+        * uh change this version string
+        * whenever an updating the project
+        */
+
+
         versionLabel.setText( "version " + getVersion());
 
         focalInput.addChangeListener(changeEvent -> {
-            focalSlider.setValue((int)focalInput.getValue());
+            focalSlider.setValue((int) focalInput.getValue());
             calculate();
         });
         focalSlider.addChangeListener(changeEvent -> {
@@ -39,22 +69,21 @@ public class Main extends JFrame {
         });
     }
 
-     private String getVersion() {
-        return version;
+
+    private static boolean isZero(float width) {
+        return width == 0;
     }
 
-     private static boolean isZero(int n) {
-        return n == 0;
-        }
-         
+
+
     void calculate() {
         float result;
         final int sensorX = 36;
         final int sensorY = 24;
         final float sensor = (float) sensorX / sensorY;
         final int focal = (int) focalInput.getValue();
-        final float width;
-        final float height;
+        float width;
+        float height;
 
         try {
             width = Float.parseFloat(widthInput.getText());
@@ -63,26 +92,43 @@ public class Main extends JFrame {
             errorLabel.setText("Invalid width/height input.");
             return;
         }
-
-        if (isZero(focal)) {
-            fovOutput.setText("Undefined");
-            errorLabel.setText("Specify a focal value other than 0.");
-            return;
-        }
         if (width == 0 || height == 0) {
-            errorLabel.setText("Specify width/height value other than 0.");
+            errorLabel.setText("Invalid Width/Height.");
+            return;
+        }
+        else {
+
+            errorLabel.setText("");
+
+        }
+
+        if (focal == 0) {
+            fovOutput.setText("Undefined");
+            errorLabel.setText("Invalid focal value.");
             return;
         }
 
-        if (width/height >= sensor) {
-            result = (float) ((float) (180/Math.PI) * 2 * Math.atan((double) (sensorX / width * height) / (2 * focal)));
+        /* remove this if you are
+         * the fun police
+         */
+
+        if (focal == 67 || width == 67 || height == 67) {
+            errorLabel.setText("SIX SEVENNNNNN");
+            return;
+       }
+
+
+        if (width / height >= sensor) {
+            result = (float) ((float) (180 / Math.PI) * 2 * Math.atan((double) (sensorX / width * height) / (2 * focal)));
         } else {
-            result = (float) ((float) (180/Math.PI) * 2 * Math.atan((double) sensorY / (2 * focal)));
+            result = (float) ((float) (180 / Math.PI) * 2 * Math.atan((double) sensorY / (2 * focal)));
         }
 
         fovOutput.setText("" + result);
         errorLabel.setText(" ");
+
     }
+
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
