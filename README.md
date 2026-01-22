@@ -9,5 +9,5 @@ if you want to modify this use the Swing UI Intellij plugin
  (Git must be installed)
  
 ```sh
-$ git clone https://github.com/TurboMaxe/ftf/ 
+$ git clone https://github.com/TurboMaxe/ftfV2/ 
 ```
