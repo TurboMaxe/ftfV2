@@ -36,10 +36,7 @@ public class Main extends JFrame {
 
 
     public Main() {
-        /*
-         * application logic
-         *
-         */
+
         setContentPane(panelMain);
         setTitle("Focal to FOV converter ");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -47,15 +44,6 @@ public class Main extends JFrame {
         setSize(365, 165);
         setLocationRelativeTo(null);
         setVisible(true);
-
-
-
-
-        /*
-        * uh change this version string
-        * whenever an updating the project
-        */
-
 
         versionLabel.setText( "version " + getVersion());
 
@@ -107,10 +95,6 @@ public class Main extends JFrame {
             errorLabel.setText("Invalid focal value.");
             return;
         }
-
-        /* remove this if you are
-         * the fun police
-         */
 
         if (focal == 67 || width == 67 || height == 67) {
             errorLabel.setText("SIX SEVENNNNNN");
