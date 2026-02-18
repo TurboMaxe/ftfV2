@@ -55,20 +55,23 @@ public class Main extends JFrame {
             panelMain.setLayout(layout);
             String osName = System.getProperty("os.name", "unknown").toLowerCase(Locale.ENGLISH);
             String ver = System.getProperty("os.version");
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            /* Not-needed system info about 
+            *  user that prints to console
+            *  just added this for fun
+            */
+                
             if (osName.contains("win")) {
                 osType = "Windows";
                 out.println("user is running on windows!");
                 out.println("version: " + ver);
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } else if (osName.contains("mac")) {
                 osType = "macOS";
                 out.println("user is running on mac!");
                 out.println("version:" + ver);
-                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
             } else if (osName.contains("nux") || osName.contains("nix")) {
                 osType = "Linux/Unix";
                 out.println("version:" + ver);
-                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
             }
 
             layout.setAutoCreateGaps(true);
@@ -137,12 +140,14 @@ public class Main extends JFrame {
             focalInput.addChangeListener(e -> {
                 focalSlider.setValue((int) focalInput.getValue());
                 calculate();
+                // Remove this for regular usage, it spams console
                 out.println("User changed focal value!, new value:" + focalInput.getValue());
             });
 
             focalSlider.addChangeListener(e -> {
                 focalInput.setValue(focalSlider.getValue());
                 calculate();
+                // Remove this for regular usage    
                 out.println("User used focal slider!, new value:" + focalSlider.getValue());
             });
             setIconImage(
@@ -151,6 +156,10 @@ public class Main extends JFrame {
                     )
             );
         }
+        /* The calculating logic for ftf
+        *  used in all event listeners, includes
+        *  error text aswell
+        */
 
         void calculate() {
             final int sensorX = 36;
@@ -195,6 +204,7 @@ public class Main extends JFrame {
             errorLabel.setText(" ");
         }
     }
+
 
 
 
