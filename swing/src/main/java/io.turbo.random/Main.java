@@ -48,7 +48,7 @@ public class Main extends JFrame {
             setTitle("Focal to FOV Converter");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setResizable(false);
-            setSize(365, 200);
+            setSize(365, 230);
             setLocationRelativeTo(null);
             JPanel panelMain = new JPanel();
             GroupLayout layout = new GroupLayout(panelMain);
@@ -204,6 +204,7 @@ public class Main extends JFrame {
             errorLabel.setText(" ");
         }
     }
+
 
 
 
