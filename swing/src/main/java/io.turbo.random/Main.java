@@ -32,7 +32,7 @@ public class Main extends JFrame {
          * @param version the version of ftf, circles are round
          * @return returns the version to display gui
          */
-        @Getter private String version = "1.2.3";
+        @Getter private String version = "1.3.0";
 
 
     public static void main(String[] args) throws Exception {
@@ -204,6 +204,7 @@ public class Main extends JFrame {
             errorLabel.setText(" ");
         }
     }
+
 
 
 
