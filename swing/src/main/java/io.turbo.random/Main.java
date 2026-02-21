@@ -70,7 +70,8 @@ public class Main extends JFrame {
             setResizable(false);
             setSize(365, 255);
             setLocationRelativeTo(null);
-
+            // this font is used across all of the labels
+            Font unifont = new Font("Comic Sans MS", Font.PLAIN, 15);
             String debmode = isDebug() ? "Active ": "Disabled";
             JPanel panelMain = new JPanel();
             GroupLayout layout = new GroupLayout(panelMain);
@@ -91,6 +92,7 @@ public class Main extends JFrame {
                 out.println("Contributor(s): TurboMaxe Github: github.com/TurboMaxe");
                 out.println("debug mode: " + debmode);
                 out.println("fun mode: " + fun );
+                out.println("label fonts" + unifont.getName() + " size " + unifont.getSize());
             if (osName.contains("mac")) {
                 osType = "macOS";
                 out.println("user is running on mac!");
@@ -103,9 +105,7 @@ public class Main extends JFrame {
 
             layout.setAutoCreateGaps(true);
             layout.setAutoCreateContainerGaps(true);
-            // this font is used across all of the labels
-            Font unifont = new Font("Comic Sans MS", Font.PLAIN, 15);
-
+       
             JLabel widthLabel = new JLabel("Width:");
             JLabel heightLabel = new JLabel("Height:");
             JLabel focalLabel = new JLabel("Focal:");
@@ -286,6 +286,7 @@ public class Main extends JFrame {
             errorLabel.setText(" ");
         }
     }
+
 
 
 
