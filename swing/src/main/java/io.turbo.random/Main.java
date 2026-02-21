@@ -6,7 +6,12 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import static java.lang.System.out;
 
@@ -26,6 +31,12 @@ public class Main extends JFrame {
         private JLabel versionLabel;
         private JToolBar toolBar;
         private static String osType;
+        private JLabel mode;
+        /* Change fun mode to false if you do not want to
+        *  display error when height, focal or width are 67
+        */
+        private boolean fun = false;
+       
         /*
          * the current version of ftf
          *
@@ -33,10 +44,11 @@ public class Main extends JFrame {
          * @return returns the version to display gui
          */
         @Getter private String version = "1.3.0";
+        @Getter private boolean debug = false;
 
 
     public static void main(String[] args) throws Exception {
-        i().tryShowPopup();
+        i().tryShowPopup(UIManager.getSystemLookAndFeelClassName());
     }
 
     public static Main i() {
@@ -44,43 +56,71 @@ public class Main extends JFrame {
     }
 
 
-        public void tryShowPopup() throws Exception {
+        AtomicInteger a = new AtomicInteger(0);
+        static ConcurrentHashMap<String, String> authors = new ConcurrentHashMap<>();
+        int funmode = fun ? 0 : 1;
+        static {
+         authors.put("jiroy1234", "github.com/jiroy1234");
+        }
+
+
+        public void tryShowPopup(String lookandfeelstring) throws Exception {
             setTitle("Focal to FOV Converter");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setResizable(false);
-            setSize(365, 230);
+            setSize(365, 255);
             setLocationRelativeTo(null);
+
+            String debmode = isDebug() ? "Active ": "Disabled";
             JPanel panelMain = new JPanel();
             GroupLayout layout = new GroupLayout(panelMain);
             panelMain.setLayout(layout);
             String osName = System.getProperty("os.name", "unknown").toLowerCase(Locale.ENGLISH);
             String ver = System.getProperty("os.version");
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            /* Not-needed system info about 
-            *  user that prints to console
-            *  just added this for fun
-            */
-                
+            UIManager.setLookAndFeel(lookandfeelstring);
+            if (isDebug()) {
+                out.println("current int [debug] (startup): " + a.get());
+            }
             if (osName.contains("win")) {
                 osType = "Windows";
                 out.println("user is running on windows!");
-                out.println("version: " + ver);
-            } else if (osName.contains("mac")) {
+                out.println("sys version: " + ver);
+            }
+                out.println("ftf version: " + version + " (Since 2/18/2026)");
+                out.println("Author(s): " + authors.keySet().stream().toList().getFirst() + " Github: " + authors.values().stream().toList().getFirst());
+                out.println("Contributor(s): TurboMaxe Github: github.com/TurboMaxe");
+                out.println("debug mode: " + debmode);
+                out.println("fun mode: " + fun );
+            if (osName.contains("mac")) {
                 osType = "macOS";
                 out.println("user is running on mac!");
-                out.println("version:" + ver);
+                out.println("version: " + ver);
+
             } else if (osName.contains("nux") || osName.contains("nix")) {
                 osType = "Linux/Unix";
-                out.println("version:" + ver);
+                out.println("version: " + ver);
             }
 
             layout.setAutoCreateGaps(true);
             layout.setAutoCreateContainerGaps(true);
+            // this font is used across all of the labels
+            Font unifont = new Font("Comic Sans MS", Font.PLAIN, 15);
 
             JLabel widthLabel = new JLabel("Width:");
             JLabel heightLabel = new JLabel("Height:");
             JLabel focalLabel = new JLabel("Focal:");
             JLabel fovLabel = new JLabel("FOV:");
+            JButton lookandfeel = new JButton("Change Layout");
+            List<JLabel> labels = new ArrayList<>();
+            labels.add(widthLabel);
+            labels.add(heightLabel);
+            labels.add(focalLabel);
+            labels.add(fovLabel);
+
+                labels.forEach((label) ->
+                    label.setFont(unifont)
+            );
+
 
             widthInput = new JTextField("36");
             heightInput = new JTextField("24");
@@ -92,9 +132,11 @@ public class Main extends JFrame {
 
             errorLabel = new JLabel(" ");
             errorLabel.setForeground(Color.RED);
+            errorLabel.setFont(Font.getFont("Sans Serif"));
 
             versionLabel = new JLabel("version " + version);
-            Font font = Font.getFont("Monospaced");
+
+            Font font = new Font("Comic Sans MS", Font.PLAIN, 15);
             versionLabel.setFont(font);
             versionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -112,8 +154,9 @@ public class Main extends JFrame {
                                             .addComponent(focalInput)
                                             .addComponent(focalSlider)
                                             .addComponent(fovOutput)))
-                            .addComponent(versionLabel)
-                            .addComponent(errorLabel)
+                                    .addComponent(versionLabel)
+                                    .addComponent(errorLabel)
+                            .addComponent(lookandfeel)
             );
 
             layout.setVerticalGroup(
@@ -133,6 +176,7 @@ public class Main extends JFrame {
                                     .addComponent(fovOutput))
                             .addComponent(versionLabel)
                             .addComponent(errorLabel)
+                            .addComponent(lookandfeel)
             );
 
             setContentPane(panelMain);
@@ -140,15 +184,49 @@ public class Main extends JFrame {
             focalInput.addChangeListener(e -> {
                 focalSlider.setValue((int) focalInput.getValue());
                 calculate();
-                // Remove this for regular usage, it spams console
-                out.println("User changed focal value!, new value:" + focalInput.getValue());
+                if (isDebug()) {
+                    out.println("User changed focal value!, new value: " + focalInput.getValue());
+                }
             });
+            SwingUtilities.invokeLater(() ->
+            lookandfeel.addActionListener(e -> {
+                out.println("Changing layout!");
+                if (a.get() == 0) {
+                    try {
+                        dispose();
+                        tryShowPopup(UIManager.getSystemLookAndFeelClassName());
+                        SwingUtilities.updateComponentTreeUI(this);
+                        this.pack();
+                        this.setLocationRelativeTo(null);
+                        a.set(a.get() == 0 ? 1 : 0);
+                        if (isDebug()) {
+                            out.println("current int [debug]: " + a.get());
+                        }
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else if (a.get() == 1) {
+                    try {
+                        dispose();
+                        tryShowPopup(UIManager.getSystemLookAndFeelClassName());
+                        a.set(a.get() == 0 ? 1 : 0);
+                        if (isDebug()) {
+                            out.println("current int [debug]: " + a.get());
+                        }
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }));
+
+
 
             focalSlider.addChangeListener(e -> {
                 focalInput.setValue(focalSlider.getValue());
                 calculate();
-                // Remove this for regular usage    
-                out.println("User used focal slider!, new value:" + focalSlider.getValue());
+                if (isDebug()) {
+                    out.println("User used focal slider!, new value:" + focalSlider.getValue());
+                }
             });
             setIconImage(
                     Toolkit.getDefaultToolkit().getImage(
@@ -156,10 +234,6 @@ public class Main extends JFrame {
                     )
             );
         }
-        /* The calculating logic for ftf
-        *  used in all event listeners, includes
-        *  error text aswell
-        */
 
         void calculate() {
             final int sensorX = 36;
@@ -183,9 +257,17 @@ public class Main extends JFrame {
             }
 
             int focal = (int) focalInput.getValue();
-
-            if (focal == 67 || width == 67 || height == 67) {
-                errorLabel.setText("SIX SEVENNNNN BOIII");
+            // Changes value to 67 BOI ts so genuinely TUFF onb
+            if (focal == 67 && funmode == 1) {
+                errorLabel.setText("SIX SEVENNNNN BOIII (focal)");
+                return;
+            }
+            if (width == 67 && funmode == 1) {
+                errorLabel.setText("SIX SEVENNNNN BOIII (width)");
+                return;
+            }
+            if (height == 67 && funmode == 1) {
+                errorLabel.setText("SIX SEVENNNNN BOIII (height)");
                 return;
             }
 
@@ -204,9 +286,6 @@ public class Main extends JFrame {
             errorLabel.setText(" ");
         }
     }
-
-
-
 
 
 
