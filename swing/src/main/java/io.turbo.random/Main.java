@@ -35,7 +35,7 @@ public class Main extends JFrame {
         /* Change fun mode to false if you do not want to
         *  display error when height, focal or width are 67
         */
-        private boolean fun = false;
+        private boolean fun = true;
        
         /*
          * the current version of ftf
@@ -48,7 +48,7 @@ public class Main extends JFrame {
 
 
     public static void main(String[] args) throws Exception {
-        i().tryShowPopup(UIManager.getSystemLookAndFeelClassName());
+        i().tryShowPopup(UIManager.getSystemLookAndFeelClassName(), true);
     }
 
     public static Main i() {
@@ -58,19 +58,19 @@ public class Main extends JFrame {
 
         AtomicInteger a = new AtomicInteger(0);
         static ConcurrentHashMap<String, String> authors = new ConcurrentHashMap<>();
-        int funmode = fun ? 0 : 1;
+        int funmode = fun ? 1 : 0;
         static {
          authors.put("jiroy1234", "github.com/jiroy1234");
         }
 
 
-        public void tryShowPopup(String lookandfeelstring) throws Exception {
+        public void tryShowPopup(String lookandfeelstring, boolean showInfo) throws Exception {
             setTitle("Focal to FOV Converter");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setResizable(false);
-            setSize(365, 255);
+            setSize(365, 280);
             setLocationRelativeTo(null);
-
+            Font unifont = new Font("gg sans", Font.PLAIN, 15);
             String debmode = isDebug() ? "Active ": "Disabled";
             JPanel panelMain = new JPanel();
             GroupLayout layout = new GroupLayout(panelMain);
@@ -78,33 +78,35 @@ public class Main extends JFrame {
             String osName = System.getProperty("os.name", "unknown").toLowerCase(Locale.ENGLISH);
             String ver = System.getProperty("os.version");
             UIManager.setLookAndFeel(lookandfeelstring);
-            if (isDebug()) {
-                out.println("current int [debug] (startup): " + a.get());
-            }
-            if (osName.contains("win")) {
-                osType = "Windows";
-                out.println("user is running on windows!");
-                out.println("sys version: " + ver);
-            }
+            if (showInfo) {
+                if (isDebug()) {
+                    out.println("current int [debug] (startup): " + a.get());
+                }
+                if (osName.contains("win")) {
+                    osType = "Windows";
+                    out.println("user is running on windows!");
+                    out.println("sys version: " + ver);
+                }
                 out.println("ftf version: " + version + " (Since 2/18/2026)");
                 out.println("Author(s): " + authors.keySet().stream().toList().getFirst() + " Github: " + authors.values().stream().toList().getFirst());
                 out.println("Contributor(s): TurboMaxe Github: github.com/TurboMaxe");
                 out.println("debug mode: " + debmode);
-                out.println("fun mode: " + fun );
-            if (osName.contains("mac")) {
-                osType = "macOS";
-                out.println("user is running on mac!");
-                out.println("version: " + ver);
+                out.println("fun mode: " + fun);
+                out.println("label fonts" + unifont.getName() + " size " + unifont.getSize());
+                if (osName.contains("mac")) {
+                    osType = "macOS";
+                    out.println("user is running on mac!");
+                    out.println("version: " + ver);
 
-            } else if (osName.contains("nux") || osName.contains("nix")) {
-                osType = "Linux/Unix";
-                out.println("version: " + ver);
+                } else if (osName.contains("nux") || osName.contains("nix")) {
+                    osType = "Linux/Unix";
+                    out.println("version: " + ver);
+                }
             }
 
             layout.setAutoCreateGaps(true);
             layout.setAutoCreateContainerGaps(true);
             // this font is used across all of the labels
-            Font unifont = new Font("Comic Sans MS", Font.PLAIN, 15);
 
             JLabel widthLabel = new JLabel("Width:");
             JLabel heightLabel = new JLabel("Height:");
@@ -136,7 +138,7 @@ public class Main extends JFrame {
 
             versionLabel = new JLabel("version " + version);
 
-            Font font = new Font("Comic Sans MS", Font.PLAIN, 15);
+            Font font = new Font("Sans Serif", Font.PLAIN, 15);
             versionLabel.setFont(font);
             versionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -194,7 +196,7 @@ public class Main extends JFrame {
                 if (a.get() == 0) {
                     try {
                         dispose();
-                        tryShowPopup(UIManager.getSystemLookAndFeelClassName());
+                        tryShowPopup(UIManager.getSystemLookAndFeelClassName(), false);
                         SwingUtilities.updateComponentTreeUI(this);
                         this.pack();
                         this.setLocationRelativeTo(null);
@@ -208,7 +210,7 @@ public class Main extends JFrame {
                 } else if (a.get() == 1) {
                     try {
                         dispose();
-                        tryShowPopup(UIManager.getSystemLookAndFeelClassName());
+                        tryShowPopup(UIManager.getSystemLookAndFeelClassName(), false);
                         a.set(a.get() == 0 ? 1 : 0);
                         if (isDebug()) {
                             out.println("current int [debug]: " + a.get());
