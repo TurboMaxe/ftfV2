@@ -70,7 +70,12 @@ public class Main extends JFrame {
             setResizable(false);
             setSize(365, 280);
             setLocationRelativeTo(null);
+<<<<<<< HEAD
             Font unifont = new Font("gg sans", Font.PLAIN, 15);
+=======
+            // this font is used across all of the labels
+            Font unifont = new Font("Comic Sans MS", Font.PLAIN, 15);
+>>>>>>> 692186c6a1ca5d7ca0841c80e2e32181148de648
             String debmode = isDebug() ? "Active ": "Disabled";
             JPanel panelMain = new JPanel();
             GroupLayout layout = new GroupLayout(panelMain);
@@ -91,12 +96,21 @@ public class Main extends JFrame {
                 out.println("Author(s): " + authors.keySet().stream().toList().getFirst() + " Github: " + authors.values().stream().toList().getFirst());
                 out.println("Contributor(s): TurboMaxe Github: github.com/TurboMaxe");
                 out.println("debug mode: " + debmode);
+<<<<<<< HEAD
                 out.println("fun mode: " + fun);
                 out.println("label fonts" + unifont.getName() + " size " + unifont.getSize());
                 if (osName.contains("mac")) {
                     osType = "macOS";
                     out.println("user is running on mac!");
                     out.println("version: " + ver);
+=======
+                out.println("fun mode: " + fun );
+                out.println("label fonts" + unifont.getName() + " size " + unifont.getSize());
+            if (osName.contains("mac")) {
+                osType = "macOS";
+                out.println("user is running on mac!");
+                out.println("version: " + ver);
+>>>>>>> 692186c6a1ca5d7ca0841c80e2e32181148de648
 
                 } else if (osName.contains("nux") || osName.contains("nix")) {
                     osType = "Linux/Unix";
@@ -106,8 +120,12 @@ public class Main extends JFrame {
 
             layout.setAutoCreateGaps(true);
             layout.setAutoCreateContainerGaps(true);
+<<<<<<< HEAD
             // this font is used across all of the labels
 
+=======
+       
+>>>>>>> 692186c6a1ca5d7ca0841c80e2e32181148de648
             JLabel widthLabel = new JLabel("Width:");
             JLabel heightLabel = new JLabel("Height:");
             JLabel focalLabel = new JLabel("Focal:");
@@ -288,6 +306,8 @@ public class Main extends JFrame {
             errorLabel.setText(" ");
         }
     }
+
+
 
 
 
