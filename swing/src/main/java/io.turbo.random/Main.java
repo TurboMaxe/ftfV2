@@ -58,7 +58,7 @@ public class Main extends JFrame {
 
         AtomicInteger a = new AtomicInteger(0);
         static ConcurrentHashMap<String, String> authors = new ConcurrentHashMap<>();
-        int funmode = fun ? 0 : 1;
+        int funmode = fun ? 1 : 0;
         static {
          authors.put("jiroy1234", "github.com/jiroy1234");
         }
@@ -286,6 +286,7 @@ public class Main extends JFrame {
             errorLabel.setText(" ");
         }
     }
+
 
 
 
