@@ -70,9 +70,8 @@ public class Main extends JFrame {
             setResizable(false);
             setSize(365, 280);
             setLocationRelativeTo(null);              
-            // this font is used across all of the labels
+       
             Font unifont = new Font("Comic Sans MS", Font.PLAIN, 15);
-
             String debmode = isDebug() ? "Active ": "Disabled";
             JPanel panelMain = new JPanel();
             GroupLayout layout = new GroupLayout(panelMain);
@@ -113,7 +112,6 @@ public class Main extends JFrame {
 
             layout.setAutoCreateGaps(true);
             layout.setAutoCreateContainerGaps(true);
-            // this font is used across all of the labels
             JLabel widthLabel = new JLabel("Width:");
             JLabel heightLabel = new JLabel("Height:");
             JLabel focalLabel = new JLabel("Focal:");
@@ -137,14 +135,13 @@ public class Main extends JFrame {
 
             focalInput = new JSpinner(new SpinnerNumberModel(50, 1, 300, 1));
             focalSlider = new JSlider(1, 300, 50);
-
+            // used by errorLabel and versionLabel         
+            Font font = new Font("Sans Serif", Font.PLAIN, 15);
             errorLabel = new JLabel(" ");
             errorLabel.setForeground(Color.RED);
-            errorLabel.setFont(Font.getFont("Sans Serif"));
+            errorLabel.setFont(font);
 
             versionLabel = new JLabel("version " + version);
-
-            Font font = new Font("Sans Serif", Font.PLAIN, 15);
             versionLabel.setFont(font);
             versionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -294,6 +291,7 @@ public class Main extends JFrame {
             errorLabel.setText(" ");
         }
     }
+
 
 
 
