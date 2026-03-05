@@ -32,12 +32,13 @@ public class Main extends JFrame {
         private JToolBar toolBar;
         private static String osType;
         private JLabel mode;
-        /* Change fun mode to false if you do not want to
+        /**
+        * Change fun mode to false if you do not want to
         *  display error when height, focal or width are 67
         */
         private boolean fun = true;
        
-        /*
+        /**
          * the current version of ftf
          *
          * @param version the version of ftf, circles are round
@@ -51,19 +52,31 @@ public class Main extends JFrame {
         i().tryShowPopup(UIManager.getSystemLookAndFeelClassName(), true);
     }
 
+     AtomicInteger a = new AtomicInteger(0);
+     static ConcurrentHashMap<String, String> authors = new ConcurrentHashMap<>();
+     int funmode = fun ? 1 : 0;
+
+    /**
+    * Get a static instance of Main.java
+    *
+    * @return a new instance of this class
+    */
+        
     public static Main i() {
         return new Main();
     }
-
-
-        AtomicInteger a = new AtomicInteger(0);
-        static ConcurrentHashMap<String, String> authors = new ConcurrentHashMap<>();
-        int funmode = fun ? 1 : 0;
+      
         static {
          authors.put("jiroy1234", "github.com/jiroy1234");
         }
 
 
+        /**
+        * Application logic
+        *
+        * @param lookandfeelstring determines which theme the uimanager will use
+        * @param showInfo determines if we should show debug/info on method invocation
+        */
         public void tryShowPopup(String lookandfeelstring, boolean showInfo) throws Exception {
             setTitle("Focal to FOV Converter");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -75,10 +88,12 @@ public class Main extends JFrame {
             String debmode = isDebug() ? "Active ": "Disabled";
             JPanel panelMain = new JPanel();
             GroupLayout layout = new GroupLayout(panelMain);
-            panelMain.setLayout(layout);
             String osName = System.getProperty("os.name", "unknown").toLowerCase(Locale.ENGLISH);
             String ver = System.getProperty("os.version");
+                
+            panelMain.setLayout(layout);
             UIManager.setLookAndFeel(lookandfeelstring);
+            // prints info, remove for optimizations    
             if (showInfo) {
                 if (isDebug()) {
                     out.println("current int [debug] (startup): " + a.get());
@@ -122,7 +137,7 @@ public class Main extends JFrame {
             labels.add(heightLabel);
             labels.add(focalLabel);
             labels.add(fovLabel);
-
+            // add universal font to each label 
                 labels.forEach((label) ->
                     label.setFont(unifont)
             );
@@ -144,7 +159,7 @@ public class Main extends JFrame {
             versionLabel = new JLabel("version " + version);
             versionLabel.setFont(font);
             versionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
+            // declare position of label components
             layout.setHorizontalGroup(
                     layout.createParallelGroup()
                             .addGroup(layout.createSequentialGroup()
@@ -210,7 +225,7 @@ public class Main extends JFrame {
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
-                } else if (a.get() == 1) {
+                } else if (a.get().equals(1)) {
                     try {
                         dispose();
                         tryShowPopup(UIManager.getSystemLookAndFeelClassName(), false);
@@ -223,9 +238,7 @@ public class Main extends JFrame {
                     }
                 }
             }));
-
-
-
+                    
             focalSlider.addChangeListener(e -> {
                 focalInput.setValue(focalSlider.getValue());
                 calculate();
@@ -291,6 +304,7 @@ public class Main extends JFrame {
             errorLabel.setText(" ");
         }
     }
+
 
 
 
