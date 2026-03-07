@@ -54,8 +54,6 @@ public class Main extends JFrame {
 
      AtomicInteger a = new AtomicInteger(0);
      static ConcurrentHashMap<String, String> authors = new ConcurrentHashMap<>();
-     int funmode = fun ? 1 : 0;
-
     /**
     * Get a static instance of Main.java
     *
@@ -276,15 +274,15 @@ public class Main extends JFrame {
 
             int focal = (int) focalInput.getValue();
             // Changes value to 67 BOI ts so genuinely TUFF onb
-            if (focal == 67 && funmode == 1) {
+            if (focal == 67 && fun) {
                 errorLabel.setText("SIX SEVENNNNN BOIII (focal)");
                 return;
             }
-            if (width == 67 && funmode == 1) {
+            if (width == 67 && fun) {
                 errorLabel.setText("SIX SEVENNNNN BOIII (width)");
                 return;
             }
-            if (height == 67 && funmode == 1) {
+            if (height == 67 && fun == 1) {
                 errorLabel.setText("SIX SEVENNNNN BOIII (height)");
                 return;
             }
@@ -304,6 +302,7 @@ public class Main extends JFrame {
             errorLabel.setText(" ");
         }
     }
+
 
 
 
